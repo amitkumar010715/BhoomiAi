@@ -17,6 +17,8 @@ const mapCoords = document.querySelector("#map-coords");
 const latInput = document.querySelector("#lat");
 const lngInput = document.querySelector("#lng");
 const questionInput = document.querySelector("#question");
+const openaiKeyInput = document.querySelector("#openai-key");
+const clearOpenaiKeyButton = document.querySelector("#clear-openai-key");
 const presets = [...document.querySelectorAll(".preset")];
 const copyMcpConfigButton = document.querySelector("#copy-mcp-config");
 const mcpConfigCode = document.querySelector("#mcp-config-code");
@@ -29,6 +31,23 @@ const helpBtn = document.querySelector("#help-btn");
 const closeHelpBtn = document.querySelector("#close-help");
 const modalOverlay = document.querySelector("#modal-overlay");
 
+
+const storedOpenaiKey = sessionStorage.getItem("bhoomiai_openai_key");
+if (storedOpenaiKey && openaiKeyInput) {
+  openaiKeyInput.value = storedOpenaiKey;
+}
+
+openaiKeyInput?.addEventListener("input", () => {
+  const key = openaiKeyInput.value.trim();
+  if (key) sessionStorage.setItem("bhoomiai_openai_key", key);
+  else sessionStorage.removeItem("bhoomiai_openai_key");
+});
+
+clearOpenaiKeyButton?.addEventListener("click", () => {
+  if (openaiKeyInput) openaiKeyInput.value = "";
+  sessionStorage.removeItem("bhoomiai_openai_key");
+  setStatus("Key cleared", "is-ok");
+});
 let map;
 let marker;
 
@@ -351,9 +370,15 @@ function getBasePayload() {
 }
 
 async function postJson(url, payload) {
+  const headers = { "Content-Type": "application/json" };
+  const apiKey = openaiKeyInput?.value?.trim();
+  if (apiKey && (url === "/v1/ask" || url === "/v1/report")) {
+    headers["X-OpenAI-API-Key"] = apiKey;
+  }
+
   const response = await fetch(url, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(payload),
   });
 
@@ -512,6 +537,7 @@ window.addEventListener("load", () => {
     // Silently fail on initial load
   });
 });
+
 
 
 

@@ -13,5 +13,4 @@
         value: true
       - key: UP_GEO_API_BASE_URL
         value: https://bhoomiai-up-geo.onrender.com
-      - key: OPENAI_API_KEY
-        sync: false
+

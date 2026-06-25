@@ -86,6 +86,17 @@ Important:
 
 If `OPENAI_LLM_ENABLED=false` or no valid key is present, `/v1/ask` returns a local template answer instead of an LLM-written answer.
 
+
+## Bring Your Own OpenAI Key
+
+For public demos, do not deploy with your personal `OPENAI_API_KEY`. The UI includes an optional OpenAI API key field. When a user enters their own key:
+
+```txt
+Browser -> X-OpenAI-API-Key header -> /v1/ask or /v1/report -> OpenAI
+```
+
+The key is stored only in the browser session storage and is not written to project files or server storage. If no key is provided, the app uses the local template answer fallback.
+
 ## API Endpoints
 
 ### Health
@@ -197,11 +208,7 @@ https://bhoomiai-up-geo.onrender.com
 
 That URL opens the BhoomiAI frontend UI because the FastAPI app serves `app/static/index.html` at `/`.
 
-Set this secret in the Render dashboard:
-
-```txt
-OPENAI_API_KEY=your_real_key_here
-```
+No project OpenAI key is required on Render. The deployed UI supports bring-your-own-key: each visitor can enter their own OpenAI API key in the browser, and the app sends it only with `/v1/ask` and `/v1/report` requests. The server does not store it.
 
 Notes:
 
@@ -402,6 +409,7 @@ Recommended build order:
 5. Add soil or land-use/land-cover data.
 6. Move large geospatial data into PostGIS for faster nearest-neighbor queries.
 7. Prepare GitHub release notes and deployment instructions.
+
 
 
 

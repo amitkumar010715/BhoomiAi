@@ -131,7 +131,15 @@
               <span><i class="fas fa-lightbulb"></i> Your Question</span>
               <textarea id="question" name="question" rows="4" placeholder="e.g., Is this location good for construction?" required>Is this location good for construction?</textarea>
             </label>
-
+            <label class="api-key-field">
+              <span><i class="fas fa-key"></i> OpenAI API Key <small>optional, sent only with Ask/Report and not stored on server</small></span>
+              <div class="api-key-row">
+                <input id="openai-key" name="openai-key" type="password" autocomplete="off" placeholder="sk-..." />
+                <button type="button" class="icon-btn" id="clear-openai-key" title="Clear key" aria-label="Clear OpenAI API key">
+                  <i class="fas fa-xmark"></i>
+                </button>
+              </div>
+            </label>
             <div class="action-row">
               <button type="submit" class="btn btn-primary" id="ask-button">
                 <i class="fas fa-brain"></i> Ask AI
@@ -328,6 +336,8 @@
     <script src="/static/app.js"></script>
   </body>
 </html>
+
+
 
 
 

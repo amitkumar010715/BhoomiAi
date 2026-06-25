@@ -1,7 +1,7 @@
 ﻿from __future__ import annotations
 
 from pydantic import BaseModel, Field
-from fastapi import APIRouter
+from fastapi import APIRouter, Header
 
 from app.api.fetch import fetch_location_facts
 from app.models.geo import Citation, FetchRequest, FieldResult, Location
@@ -44,7 +44,10 @@ class ReportResponse(BaseModel):
 
 
 @router.post("/report", response_model=ReportResponse)
-def generate_site_report(request: ReportRequest) -> ReportResponse:
+def generate_site_report(
+    request: ReportRequest,
+    x_openai_api_key: str | None = Header(default=None),
+) -> ReportResponse:
     question = (request.question or DEFAULT_REPORT_QUESTION).strip() or DEFAULT_REPORT_QUESTION
     fetch_response = fetch_location_facts(
         FetchRequest(lat=request.lat, lng=request.lng, fields=REPORT_FIELDS)
@@ -62,6 +65,7 @@ def generate_site_report(request: ReportRequest) -> ReportResponse:
         location=fetch_response.location,
         results=fetch_response.results,
         citations=fetch_response.citations,
+        api_key_override=x_openai_api_key,
     )
     if summary is None:
         summary = build_answer(
@@ -167,3 +171,4 @@ def format_value(result: FieldResult) -> str:
 
 def label_for(field: str) -> str:
     return field.replace("_", " ")
+

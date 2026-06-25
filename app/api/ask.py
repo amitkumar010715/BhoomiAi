@@ -1,4 +1,4 @@
-﻿from fastapi import APIRouter
+﻿from fastapi import APIRouter, Header
 
 from app.api.fetch import fetch_location_facts
 from app.models.geo import AskRequest, AskResponse, FetchRequest
@@ -11,7 +11,10 @@ router = APIRouter()
 
 
 @router.post("/ask", response_model=AskResponse)
-def ask_location_question(request: AskRequest) -> AskResponse:
+def ask_location_question(
+    request: AskRequest,
+    x_openai_api_key: str | None = Header(default=None),
+) -> AskResponse:
     fields = plan_fields(request.question)
     fetch_response = fetch_location_facts(
         FetchRequest(lat=request.lat, lng=request.lng, fields=fields)
@@ -22,6 +25,7 @@ def ask_location_question(request: AskRequest) -> AskResponse:
         location=fetch_response.location,
         results=fetch_response.results,
         citations=fetch_response.citations,
+        api_key_override=x_openai_api_key,
     )
     if answer is None:
         answer = build_answer(
@@ -38,3 +42,7 @@ def ask_location_question(request: AskRequest) -> AskResponse:
         results=fetch_response.results,
         citations=fetch_response.citations,
     )
+
+
+
+

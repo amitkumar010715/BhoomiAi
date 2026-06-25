@@ -20,12 +20,14 @@ def build_llm_answer(
     location: Location,
     results: dict[str, FieldResult],
     citations: list[Citation],
+    api_key_override: str | None = None,
 ) -> str | None:
     settings = get_settings()
-    if not settings.openai_llm_enabled or not settings.openai_api_key:
+    api_key = (api_key_override or settings.openai_api_key or "").strip()
+    if not settings.openai_llm_enabled or not api_key:
         return None
 
-    client = OpenAI(api_key=settings.openai_api_key)
+    client = OpenAI(api_key=api_key)
     payload = _build_payload(question, location, results, citations)
 
     try:
@@ -65,3 +67,4 @@ def _build_payload(
             "Keep the answer short and practical.",
         ],
     }
+
