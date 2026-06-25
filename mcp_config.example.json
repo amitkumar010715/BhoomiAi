@@ -1,0 +1,11 @@
+﻿{
+  "mcpServers": {
+    "bhoomiai-up-geo": {
+      "command": "<ABSOLUTE_PATH_TO_REPO>\\.venv\\Scripts\\python.exe",
+      "args": [
+        "<ABSOLUTE_PATH_TO_REPO>\\mcp_server.py"
+      ],
+      "cwd": "<ABSOLUTE_PATH_TO_REPO>"
+    }
+  }
+}

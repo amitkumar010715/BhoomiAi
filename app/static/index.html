@@ -1,0 +1,333 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="BhoomiAI - AI-powered geo-intelligence platform for Uttar Pradesh. Get land facts and insights for any coordinate." />
+    <title>BhoomiAI | UP Geo Intelligence</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="brand" href="/" aria-label="BhoomiAI home">
+          <span class="brand-mark">
+            <i class="fas fa-map-location-dot"></i>
+          </span>
+          <span>
+            <strong>BhoomiAI</strong>
+            <small>Land Intelligence Platform</small>
+          </span>
+        </a>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="#workspace" class="nav-link">
+            <i class="fas fa-home"></i>
+            <span>Query</span>
+          </a>
+          <a href="#facts" class="nav-link">
+            <i class="fas fa-database"></i>
+            <span>Data</span>
+          </a>
+          <a href="#report" class="nav-link">
+            <i class="fas fa-file-lines"></i>
+            <span>Report</span>
+          </a>
+          <a href="/docs" target="_blank" rel="noreferrer" class="nav-link">
+            <i class="fas fa-book"></i>
+            <span>Docs</span>
+          </a>
+          <a href="#mcp" class="nav-link">
+            <i class="fas fa-plug"></i>
+            <span>MCP</span>
+          </a>
+          <button class="nav-link help-btn" id="help-btn" title="Get help">
+            <i class="fas fa-circle-question"></i>
+            <span>Help</span>
+          </button>
+        </nav>
+        <div class="status" id="status">
+          <span class="status-indicator"></span>
+          <span id="status-text">Ready</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="shell" id="workspace">
+      <section class="workspace" aria-label="UP Geo Intelligence Demo">
+        <section class="hero-strip" aria-label="Overview">
+          <div>
+            <p class="eyebrow"><i class="fas fa-sparkles"></i> Geo-Intelligence Platform</p>
+            <h1>Discover Land Intelligence for Uttar Pradesh</h1>
+            <p class="hero-copy">Select a location on the map or use preset cities to get instant access to local geo facts, elevation data, and AI-powered insights powered by local data + LLM analysis.</p>
+          </div>
+          <div class="hero-metrics" aria-label="Current data coverage">
+            <div class="metric-card">
+              <div class="metric-icon"><i class="fas fa-map"></i></div>
+              <span><strong>75</strong> Districts</span>
+              <small>Full Coverage</small>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon"><i class="fas fa-mountain"></i></div>
+              <span><strong>DEM</strong> Elevation</span>
+              <small>Sample Tiles</small>
+            </div>
+            <div class="metric-card">
+              <div class="metric-icon"><i class="fas fa-city"></i></div>
+              <span><strong>OSM</strong> Coverage</span>
+              <small>Major Cities</small>
+            </div>
+          </div>
+        </section>
+
+        <div class="layout">
+          <form class="query-panel" id="query-form">
+            <div class="panel-title">
+              <div>
+                <h2><i class="fas fa-search"></i> Query Tool</h2>
+                <p>Select a location and ask a question to get insights.</p>
+              </div>
+            </div>
+
+            <div class="preset-row" aria-label="Sample locations">
+              <button type="button" class="preset is-active" data-lat="26.8467" data-lng="80.9462" data-question="Is this location good for construction?">
+                <i class="fas fa-city"></i> Lucknow
+              </button>
+              <button type="button" class="preset" data-lat="25.3176" data-lng="82.9739" data-question="Is this location close to water?">
+                <i class="fas fa-gopuram"></i> Varanasi
+              </button>
+              <button type="button" class="preset" data-lat="28.5355" data-lng="77.3910" data-question="What are the land access facts here?">
+                <i class="fas fa-building"></i> Noida
+              </button>
+              <button type="button" class="preset" data-lat="27.1767" data-lng="78.0081" data-question="What data is available for this coordinate?">
+                <i class="fas fa-gopuram"></i> Agra
+              </button>
+              <button type="button" class="preset" data-lat="26.7606" data-lng="83.3732" data-question="What data is available for this coordinate?">
+                <i class="fas fa-tree"></i> Gorakhpur
+              </button>
+              <button type="button" class="preset preset-custom" data-lat="" data-lng="" data-question="What data is available for this coordinate?">
+                <i class="fas fa-map-pin"></i> Custom
+              </button>
+            </div>
+
+            <div class="form-section">
+              <label class="form-label">
+                <span><i class="fas fa-map-marker"></i> Coordinates</span>
+              </label>
+              <div class="coords-grid">
+                <label class="input-label">
+                  <span>Latitude</span>
+                  <input id="lat" name="lat" type="number" step="any" value="26.8467" required />
+                </label>
+                <label class="input-label">
+                  <span>Longitude</span>
+                  <input id="lng" name="lng" type="number" step="any" value="80.9462" required />
+                </label>
+              </div>
+            </div>
+
+            <label class="question-field">
+              <span><i class="fas fa-lightbulb"></i> Your Question</span>
+              <textarea id="question" name="question" rows="4" placeholder="e.g., Is this location good for construction?" required>Is this location good for construction?</textarea>
+            </label>
+
+            <div class="action-row">
+              <button type="submit" class="btn btn-primary" id="ask-button">
+                <i class="fas fa-brain"></i> Ask AI
+              </button>
+              <button type="button" class="btn btn-secondary" id="fetch-button">
+                <i class="fas fa-database"></i> Fetch Facts
+              </button>
+              <button type="button" class="btn btn-secondary btn-report" id="report-button">
+                <i class="fas fa-file-lines"></i> Report
+              </button>
+            </div>
+          </form>
+
+          <section class="map-panel" aria-label="Coordinate map">
+            <div class="section-heading">
+              <div>
+                <h2><i class="fas fa-map"></i> Map</h2>
+                <p>Click to select a location and run query.</p>
+              </div>
+              <span id="map-coords" class="coords-badge">26.846700, 80.946200</span>
+            </div>
+            <div id="map" class="map-canvas"></div>
+          </section>
+
+          <section class="answer-panel" aria-label="Answer">
+            <div class="section-heading">
+              <div>
+                <h2><i class="fas fa-comment"></i> AI Answer</h2>
+                <p>LLM explanation grounded in fetched facts.</p>
+              </div>
+              <span id="field-count" class="count-badge">0 fields</span>
+            </div>
+            <p class="answer-text" id="answer-text">
+              <span class="placeholder-text">Run a query to see a cited answer.</span>
+            </p>
+          </section>
+        </div>
+
+        <section class="coverage-panel" aria-label="Available data">
+          <div>
+            <h2><i class="fas fa-chart-pie"></i> Data Coverage</h2>
+            <p id="coverage-text">No coordinate checked yet.</p>
+          </div>
+          <div class="coverage-counts">
+            <span class="coverage-badge available"><i class="fas fa-check-circle"></i> <span id="available-count">0</span> Available</span>
+            <span class="coverage-badge unavailable"><i class="fas fa-circle-xmark"></i> <span id="unavailable-count">0</span> Unavailable</span>
+          </div>
+        </section>
+        <section class="report-panel" id="report" aria-label="Site report">
+          <div class="section-heading">
+            <div>
+              <h2><i class="fas fa-file-lines"></i> Site Report</h2>
+              <p>Generated from current coordinate facts, sources, and the grounded AI summary.</p>
+            </div>
+            <button type="button" class="copy-report-btn" id="copy-report-button"><i class="fas fa-copy"></i> Copy</button>
+          </div>
+          <pre class="report-output" id="report-output">Generate a report to see a structured site summary here.</pre>
+        </section>
+        <section class="facts-section" id="facts" aria-label="Facts and sources">
+          <div class="facts-grid" id="facts-grid"></div>
+          <div class="sources-panel">
+            <div class="section-heading">
+              <div>
+                <h2><i class="fas fa-link"></i> Sources</h2>
+                <p>Data sources for fetched facts.</p>
+              </div>
+              <span id="source-count" class="count-badge">0</span>
+            </div>
+            <ul class="sources-list" id="sources-list"></ul>
+          </div>
+        </section>
+        <section class="mcp-section" id="mcp" aria-label="MCP server setup">
+          <div class="mcp-copy">
+            <p class="eyebrow"><i class="fas fa-plug"></i> MCP Ready</p>
+            <h2>Use BhoomiAI from AI agents</h2>
+            <p>Clone the repo, install dependencies, add your `.env`, then connect this local stdio MCP server from Copilot, Claude Desktop, Cursor, or other MCP-aware clients.</p>
+            <div class="mcp-tools" aria-label="Available MCP tools">
+              <span><i class="fas fa-location-dot"></i> up_geo_geocode</span>
+              <span><i class="fas fa-database"></i> up_geo_fetch</span>
+              <span><i class="fas fa-brain"></i> up_geo_ask</span>
+              <span><i class="fas fa-file-lines"></i> up_geo_report</span>
+            </div>
+          </div>
+          <div class="mcp-config-card">
+            <div class="section-heading">
+              <div>
+                <h2><i class="fas fa-code"></i> MCP Config</h2>
+                <p>Replace <code>&lt;ABSOLUTE_PATH_TO_REPO&gt;</code> with your cloned repo path.</p>
+              </div>
+              <button type="button" class="copy-btn" id="copy-mcp-config"><i class="fas fa-copy"></i> Copy</button>
+            </div>
+            <pre class="mcp-code"><code id="mcp-config-code">{
+  "servers": {
+    "bhoomiai-up-geo": {
+      "type": "stdio",
+      "command": "&lt;ABSOLUTE_PATH_TO_REPO&gt;\\.venv\\Scripts\\python.exe",
+      "args": [
+        "&lt;ABSOLUTE_PATH_TO_REPO&gt;\\mcp_server.py"
+      ]
+    }
+  }
+}</code></pre>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <div class="footer-section">
+          <h3>BhoomiAI</h3>
+          <p>Intelligent geo-spatial data analysis platform for land intelligence and decision-making in Uttar Pradesh.</p>
+          <div class="footer-social">
+            <a href="https://www.linkedin.com/in/amit-kumar-546267265/" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/amitkumar010715" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#workspace">Query Tool</a></li>
+            <li><a href="#facts">Data Coverage</a></li>
+            <li><a href="/docs" target="_blank" rel="noreferrer">API Docs</a></li>
+            <li><a href="#">Pricing</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">Status</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+          <p>&copy; 2024 BhoomiAI. All rights reserved. | Data: District boundaries UP-wide, Elevation & OSM sample coverage</p>
+          <div class="tech-stack">
+            <span><i class="fas fa-database"></i> OSM Data</span>
+            <span><i class="fas fa-cube"></i> Elevation DEM</span>
+            <span><i class="fas fa-brain"></i> OpenAI LLM</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Help Modal -->
+    <div class="modal" id="help-modal" aria-hidden="true">
+      <div class="modal-overlay" id="modal-overlay"></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>How to Use BhoomiAI</h2>
+          <button class="close-btn" id="close-help" aria-label="Close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="help-section">
+            <h3><i class="fas fa-map"></i> Select a Location</h3>
+            <p>Click on the map to select any coordinate in Uttar Pradesh, or use the preset cities for quick access.</p>
+          </div>
+          <div class="help-section">
+            <h3><i class="fas fa-pen"></i> Ask Your Question</h3>
+            <p>Type a question about the location (e.g., "Is this good for construction?"). Our AI will analyze local data first.</p>
+          </div>
+          <div class="help-section">
+            <h3><i class="fas fa-bolt"></i> Get AI-Powered Insights</h3>
+            <p>Click "Ask AI" to get an LLM explanation grounded in fetched geo facts. Click "Fetch facts" to see raw data only.</p>
+          </div>
+          <div class="help-section">
+            <h3><i class="fas fa-info-circle"></i> Data Coverage</h3>
+            <p><strong>District:</strong> Full UP coverage | <strong>Elevation:</strong> Sample DEM tiles | <strong>OSM:</strong> Sample city data</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
+
+
+

@@ -1,0 +1,18 @@
+﻿[
+  {"name":"Lucknow","district":"Lucknow","state":"Uttar Pradesh","lat":26.8467,"lng":80.9462,"aliases":["lucknow", "lakhnau"]},
+  {"name":"Kanpur","district":"Kanpur Nagar","state":"Uttar Pradesh","lat":26.4499,"lng":80.3319,"aliases":["kanpur", "kanpur nagar", "cawnpore"]},
+  {"name":"Varanasi","district":"Varanasi","state":"Uttar Pradesh","lat":25.3176,"lng":82.9739,"aliases":["varanasi", "banaras", "benaras", "kashi"]},
+  {"name":"Agra","district":"Agra","state":"Uttar Pradesh","lat":27.1767,"lng":78.0081,"aliases":["agra"]},
+  {"name":"Gorakhpur","district":"Gorakhpur","state":"Uttar Pradesh","lat":26.7606,"lng":83.3732,"aliases":["gorakhpur"]},
+  {"name":"Prayagraj","district":"Prayagraj","state":"Uttar Pradesh","lat":25.4358,"lng":81.8463,"aliases":["prayagraj", "allahabad"]},
+  {"name":"Noida","district":"Gautam Buddha Nagar","state":"Uttar Pradesh","lat":28.5355,"lng":77.3910,"aliases":["noida", "gautam buddha nagar"]},
+  {"name":"Ghaziabad","district":"Ghaziabad","state":"Uttar Pradesh","lat":28.6692,"lng":77.4538,"aliases":["ghaziabad"]},
+  {"name":"Meerut","district":"Meerut","state":"Uttar Pradesh","lat":28.9845,"lng":77.7064,"aliases":["meerut"]},
+  {"name":"Bareilly","district":"Bareilly","state":"Uttar Pradesh","lat":28.3670,"lng":79.4304,"aliases":["bareilly"]},
+  {"name":"Aligarh","district":"Aligarh","state":"Uttar Pradesh","lat":27.8974,"lng":78.0880,"aliases":["aligarh"]},
+  {"name":"Moradabad","district":"Moradabad","state":"Uttar Pradesh","lat":28.8386,"lng":78.7733,"aliases":["moradabad"]},
+  {"name":"Saharanpur","district":"Saharanpur","state":"Uttar Pradesh","lat":29.9671,"lng":77.5510,"aliases":["saharanpur"]},
+  {"name":"Jhansi","district":"Jhansi","state":"Uttar Pradesh","lat":25.4484,"lng":78.5685,"aliases":["jhansi"]},
+  {"name":"Ayodhya","district":"Ayodhya","state":"Uttar Pradesh","lat":26.7922,"lng":82.1998,"aliases":["ayodhya", "faizabad"]},
+  {"name":"Mathura","district":"Mathura","state":"Uttar Pradesh","lat":27.4924,"lng":77.6737,"aliases":["mathura"]}
+]
