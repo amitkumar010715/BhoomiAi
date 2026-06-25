@@ -2,6 +2,23 @@
 
 BhoomiAI is an MVP geospatial intelligence system for Uttar Pradesh. It turns a city name or latitude/longitude into sourced local facts such as district, elevation, nearby roads, nearby water, and an AI answer grounded in those facts.
 
+
+## Live Demo
+
+Open the deployed UI:
+
+```txt
+https://bhoomiai-up-geo.onrender.com/
+```
+
+API docs:
+
+```txt
+https://bhoomiai-up-geo.onrender.com/docs
+```
+
+The hosted demo uses bring-your-own OpenAI key mode. Users can enter their own key in the UI for LLM answers, or use the app without a key for local/template answers.
+
 The product has three working surfaces:
 
 ```txt
@@ -201,7 +218,7 @@ Health Check Path: /health
 Python version: 3.11.11
 ```
 
-After deploy, Render gives a public URL like:
+Current Render URL:
 
 ```txt
 https://bhoomiai-up-geo.onrender.com
@@ -410,6 +427,7 @@ Recommended build order:
 5. Add soil or land-use/land-cover data.
 6. Move large geospatial data into PostGIS for faster nearest-neighbor queries.
 7. Prepare GitHub release notes and deployment instructions.
+
 
 
 
