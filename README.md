@@ -198,6 +198,7 @@ Render settings:
 Build Command: pip install -r requirements.txt
 Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
 Health Check Path: /health
+Python version: 3.11.11
 ```
 
 After deploy, Render gives a public URL like:
@@ -409,6 +410,7 @@ Recommended build order:
 5. Add soil or land-use/land-cover data.
 6. Move large geospatial data into PostGIS for faster nearest-neighbor queries.
 7. Prepare GitHub release notes and deployment instructions.
+
 
 
 
