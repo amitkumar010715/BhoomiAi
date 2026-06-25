@@ -176,6 +176,41 @@ Example:
 
 Returns a structured report with location, summary, available fields, unavailable fields, facts, citations, and `report_markdown`.
 
+
+## Deploy on Render
+
+This repo includes `render.yaml` for deploying the FastAPI app as a Render Web Service.
+
+Render settings:
+
+```txt
+Build Command: pip install -r requirements.txt
+Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+Health Check Path: /health
+```
+
+After deploy, Render gives a public URL like:
+
+```txt
+https://bhoomiai-up-geo.onrender.com
+```
+
+That URL opens the BhoomiAI frontend UI because the FastAPI app serves `app/static/index.html` at `/`.
+
+Set this secret in the Render dashboard:
+
+```txt
+OPENAI_API_KEY=your_real_key_here
+```
+
+Notes:
+
+```txt
+The ignored OSM sample file is not deployed to Render.
+District lookup and committed SRTM tiles will work.
+Road/water/place proximity needs the OSM sample file or a hosted data store.
+```
+
 ## MCP Server
 
 The MCP server exposes BhoomiAI as tools for AI clients.
@@ -367,6 +402,7 @@ Recommended build order:
 5. Add soil or land-use/land-cover data.
 6. Move large geospatial data into PostGIS for faster nearest-neighbor queries.
 7. Prepare GitHub release notes and deployment instructions.
+
 
 
 

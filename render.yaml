@@ -1,0 +1,17 @@
+﻿services:
+  - type: web
+    name: bhoomiai-up-geo
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini
+      - key: OPENAI_LLM_ENABLED
+        value: true
+      - key: UP_GEO_API_BASE_URL
+        value: https://bhoomiai-up-geo.onrender.com
+      - key: OPENAI_API_KEY
+        sync: false
