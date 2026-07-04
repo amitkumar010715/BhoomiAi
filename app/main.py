@@ -1,7 +1,7 @@
 ﻿from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.api.ask import router as ask_router
@@ -34,8 +34,14 @@ def health() -> dict[str, str]:
 
 
 
+
+@app.get("/google05a19a632cb142ed.html", response_class=PlainTextResponse, include_in_schema=False)
+def google_verification() -> str:
+    return "google-site-verification: google05a19a632cb142ed.html"
+
 @app.get("/", include_in_schema=False)
 def frontend() -> FileResponse:
     return FileResponse(STATIC_DIR / "index.html")
+
 
 
