@@ -408,6 +408,18 @@ city buttons and search-style workflows
 
 `data/vector/osm_up_samples.geojson` is generated local data and is larger than GitHub's normal single-file limit. It is ignored by git. After cloning, regenerate or download the OSM sample data with the script in `scripts/` before using road/water/place proximity features.
 
+
+## Security Notes
+
+- This is an MVP for exploratory analysis, not legal, survey, flood, construction, or ownership advice.
+- Do not enter sensitive personal data or private land records.
+- Public demo users can bring their own OpenAI key. The key is sent only in the `X-OpenAI-API-Key` header for `/v1/ask` and `/v1/report` and is not stored by the app.
+- The API has simple in-memory per-IP rate limits for public deployment:
+  - `/v1/ask`: 20 requests per minute
+  - `/v1/report`: 10 requests per minute
+  - Other `/v1/*` endpoints: 60 requests per minute
+- In-memory limits reset when the server restarts and are suitable for MVP protection only. Use Redis or an API gateway for production.
+
 ## Known Limitations
 
 - This is an MVP, not a legal land record system.
@@ -427,6 +439,7 @@ Recommended build order:
 5. Add soil or land-use/land-cover data.
 6. Move large geospatial data into PostGIS for faster nearest-neighbor queries.
 7. Prepare GitHub release notes and deployment instructions.
+
 
 
 

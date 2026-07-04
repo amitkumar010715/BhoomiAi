@@ -9,6 +9,7 @@ from app.api.ask import router as ask_router
 from app.api.fetch import router as fetch_router
 from app.api.geocode import router as geocode_router
 from app.api.report import router as report_router
+from app.services.rate_limiter import InMemoryRateLimitMiddleware, RateLimitRule
 
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -42,6 +43,7 @@ def google_verification() -> str:
 @app.get("/", include_in_schema=False)
 def frontend() -> FileResponse:
     return FileResponse(STATIC_DIR / "index.html")
+
 
 
 

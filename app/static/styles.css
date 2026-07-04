@@ -1140,3 +1140,42 @@ textarea:focus {
 .inline-help-link:hover {
   color: var(--green);
 }
+
+.mvp-disclaimer {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin: 0 0 28px;
+  padding: 16px 18px;
+  border: 1px solid rgba(194, 126, 30, 0.35);
+  border-radius: 12px;
+  background: rgba(194, 126, 30, 0.08);
+  color: var(--ink);
+}
+
+.disclaimer-icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(194, 126, 30, 0.16);
+  color: var(--orange);
+  font-size: 18px;
+}
+
+.mvp-disclaimer h2 {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.mvp-disclaimer p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .mvp-disclaimer { grid-template-columns: 1fr; }
+}
