@@ -1128,3 +1128,15 @@ textarea:focus {
   color: var(--red);
   background: rgba(168, 69, 57, 0.08);
 }
+
+.inline-help-link {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.inline-help-link:hover {
+  color: var(--green);
+}
